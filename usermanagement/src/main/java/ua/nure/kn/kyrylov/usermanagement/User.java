@@ -53,11 +53,15 @@ public class User implements Serializable {
             months = 0;
         }
 
+        if (years < 0) {
+            years = 0;
+        }
+
         return years + "-" + months + "-" + days;
     }
 
-    public int getAge(){
-        return Integer.parseInt(getAgeStr().substring(0,getAgeStr().indexOf("-")));
+    public int getAge() {
+        return Integer.parseInt(getAgeStr().substring(0, getAgeStr().indexOf("-")));
     }
 
     public Long getId() {
