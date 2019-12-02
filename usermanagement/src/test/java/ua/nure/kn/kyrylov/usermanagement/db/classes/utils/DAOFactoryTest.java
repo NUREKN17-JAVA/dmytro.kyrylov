@@ -3,7 +3,7 @@ package ua.nure.kn.kyrylov.usermanagement.db.classes.utils;
 import junit.framework.TestCase;
 import ua.nure.kn.kyrylov.usermanagement.db.interfaces.dao.UserDao;
 
-public class DAOFactoryTest extends TestCase {
+public class DaoFactoryTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();
@@ -14,7 +14,7 @@ public class DAOFactoryTest extends TestCase {
 
     public void testGetUserDao() {
         try {
-            DAOFactory daoFactory = DAOFactory.getInstance();
+            DaoFactory daoFactory = DaoFactory.getInstance();
             assertNotNull(daoFactory);
             UserDao userDao = daoFactory.getUserDao();
             assertNotNull(userDao);

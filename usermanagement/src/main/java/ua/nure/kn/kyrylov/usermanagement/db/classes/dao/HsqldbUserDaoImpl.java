@@ -1,6 +1,6 @@
 package ua.nure.kn.kyrylov.usermanagement.db.classes.dao;
 
-import ua.nure.kn.kyrylov.usermanagement.User;
+import ua.nure.kn.kyrylov.usermanagement.domain.User;
 import ua.nure.kn.kyrylov.usermanagement.db.exception.DatabaseException;
 import ua.nure.kn.kyrylov.usermanagement.db.interfaces.dao.UserDao;
 import ua.nure.kn.kyrylov.usermanagement.db.interfaces.utils.ConnectionFactory;
@@ -8,6 +8,7 @@ import ua.nure.kn.kyrylov.usermanagement.db.interfaces.utils.ConnectionFactory;
 import java.sql.*;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 public class HsqldbUserDaoImpl implements UserDao {
 
@@ -52,7 +53,7 @@ public class HsqldbUserDaoImpl implements UserDao {
                 throw new DatabaseException("Number of the inserted rows: " + resultOfQuery);
             }
 
-            CallableStatement callableStatement = getConnection().prepareCall(GET_ID_CALLABLE_STATEMENT);
+            CallableStatement callableStatement = getConnectionInstance().prepareCall(GET_ID_CALLABLE_STATEMENT);
             ResultSet keys = callableStatement.executeQuery();
 
             if (!keys.next()) {
@@ -64,7 +65,6 @@ public class HsqldbUserDaoImpl implements UserDao {
             callableStatement.close();
             keys.close();
             getConnection().close();
-            findAllUsers();
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
@@ -74,7 +74,7 @@ public class HsqldbUserDaoImpl implements UserDao {
     @Override
     public void updateUser(User user) throws DatabaseException {
         try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement(UPDATE_PREPARED_STATEMENT_STR);
+            PreparedStatement preparedStatement = getConnectionInstance().prepareStatement(UPDATE_PREPARED_STATEMENT_STR);
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setDate(3, new Date(user.getDateOfBirth().getTime()));
@@ -91,7 +91,7 @@ public class HsqldbUserDaoImpl implements UserDao {
     @Override
     public void deleteUser(User user) throws DatabaseException {
         try {
-            PreparedStatement preparedStatement = getConnection().prepareStatement(DELETE_PREPARED_STATEMENT_STR);
+            PreparedStatement preparedStatement = getConnectionInstance().prepareStatement(DELETE_PREPARED_STATEMENT_STR);
             preparedStatement.setLong(1, user.getId());
 
             preparedStatement.executeUpdate();
@@ -119,7 +119,6 @@ public class HsqldbUserDaoImpl implements UserDao {
             statement.close();
             users.close();
             getConnection().close();
-            findAllUsers();
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
@@ -127,14 +126,15 @@ public class HsqldbUserDaoImpl implements UserDao {
     }
 
     @Override
-    public Collection findAllUsers() throws DatabaseException {
-        Collection result = new LinkedList();
+    public List<User> findAllUsers() throws DatabaseException {
+        List<User> result = new LinkedList<>();
         try {
             Statement statement = getConnectionInstance().createStatement();
             ResultSet resultSet = statement.executeQuery(SELECT_ALL_USERS_QUERY);
             while (resultSet.next()) {
                 result.add(getUserFromResultSet(resultSet));
             }
+            getConnection().close();
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }

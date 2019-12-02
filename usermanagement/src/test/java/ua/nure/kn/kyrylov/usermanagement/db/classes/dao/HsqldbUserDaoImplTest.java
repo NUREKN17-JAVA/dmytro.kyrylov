@@ -5,11 +5,10 @@ import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.XmlDataSet;
-import ua.nure.kn.kyrylov.usermanagement.User;
-import ua.nure.kn.kyrylov.usermanagement.db.classes.utils.DAOFactory;
+import ua.nure.kn.kyrylov.usermanagement.domain.User;
+import ua.nure.kn.kyrylov.usermanagement.db.classes.utils.DaoFactory;
 import ua.nure.kn.kyrylov.usermanagement.db.exception.DatabaseException;
 import ua.nure.kn.kyrylov.usermanagement.db.interfaces.dao.UserDao;
-import ua.nure.kn.kyrylov.usermanagement.db.interfaces.utils.ConnectionFactory;
 
 import java.util.Collection;
 import java.util.Date;
@@ -22,7 +21,7 @@ public class HsqldbUserDaoImplTest extends DatabaseTestCase {
 
     @Override
     protected IDatabaseConnection getConnection() throws Exception {
-        DAOFactory daoFactory = DAOFactory.getInstance();
+        DaoFactory daoFactory = DaoFactory.getInstance();
         this.userDao = daoFactory.getUserDao();
         return new DatabaseConnection(userDao.getConnectionFactory().createConnection());
     }

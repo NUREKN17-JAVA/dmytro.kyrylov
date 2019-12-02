@@ -12,7 +12,7 @@
         <junit>
             <classpath>
                 <pathelement location="${build-dir}"/>
-                <fileset dir="C:\Users\50601\.m2\repository\junit\junit\3.8.2"/>
+                <fileset dir="${basedir}/libs"/>
             </classpath>
             <test name="ua.nure.kn.kyrylov.usermanagement.UserTest"/>
             <formatter type="plain"/>

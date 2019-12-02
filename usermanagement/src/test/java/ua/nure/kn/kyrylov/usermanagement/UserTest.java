@@ -1,6 +1,7 @@
 package ua.nure.kn.kyrylov.usermanagement;
 
 import junit.framework.TestCase;
+import ua.nure.kn.kyrylov.usermanagement.domain.User;
 
 import java.util.Calendar;
 import java.util.Date;

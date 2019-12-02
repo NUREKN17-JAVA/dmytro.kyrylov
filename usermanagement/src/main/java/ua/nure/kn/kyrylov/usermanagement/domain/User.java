@@ -1,4 +1,4 @@
-package ua.nure.kn.kyrylov.usermanagement;
+package ua.nure.kn.kyrylov.usermanagement.domain;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -23,11 +23,20 @@ public class User implements Serializable {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public User(String firstName, String lastName, Date dateOfBirth) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+    }
+
     public String getFullName() {
         return getLastName() + ", " + getFirstName();
     }
 
     public String getAgeStr() {
+        if(getDateOfBirth()==null){
+            return "";
+        }
         Calendar today = Calendar.getInstance();
         Calendar birth = Calendar.getInstance();
 
@@ -103,18 +112,12 @@ public class User implements Serializable {
 
         User user = (User) o;
 
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
-        return dateOfBirth != null ? dateOfBirth.equals(user.dateOfBirth) : user.dateOfBirth == null;
+        return (id != null ? !id.equals(user.id) : user.id != null);
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
         return result;
     }
 }
