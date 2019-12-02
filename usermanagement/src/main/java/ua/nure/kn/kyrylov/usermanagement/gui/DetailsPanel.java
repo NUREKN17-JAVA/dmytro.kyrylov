@@ -39,10 +39,12 @@ public class DetailsPanel extends JPanel implements ActionListener {
     }
 
     private JPanel getFieldPanel() {
-        fieldPanel = new JPanel();
-        fieldPanel.setLayout(new GridLayout(2, 2));
-        addLabeledField(fieldPanel, Messages.getString("fullNameText"), getFullNameField());
-        addLabeledField(fieldPanel, Messages.getString("ageText"), getAgeField());
+        if(fieldPanel==null){
+            fieldPanel = new JPanel();
+            fieldPanel.setLayout(new GridLayout(2, 2));
+            addLabeledField(fieldPanel, Messages.getString("fullNameText"), getFullNameField());
+            addLabeledField(fieldPanel, Messages.getString("ageText"), getAgeField());
+        }
         return fieldPanel;
     }
 
